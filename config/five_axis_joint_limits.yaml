@@ -1,0 +1,11 @@
+joint_limits:
+  a_axis_servo_to_a_axis_horn:
+    has_velocity_limits: true
+    max_velocity: 2
+    has_acceleration_limits: true
+    max_acceleration: 10
+  c_axis_servo_to_c_axis_horn:
+    has_velocity_limits: true
+    max_velocity: 2
+    has_acceleration_limits: true
+    max_acceleration: 10

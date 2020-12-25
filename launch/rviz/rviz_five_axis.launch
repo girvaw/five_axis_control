@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+	<include file="$(find five_axis_robot)/launch/real_five_axis/five_axis.launch" />
+
+	<!-- Show in Rviz   -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d '$(find five_axis_robot)/data/five_axis.rviz'"/>
+
+</launch>

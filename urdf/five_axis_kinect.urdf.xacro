@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="five_axis_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find five_axis_robot)/urdf/support.urdf.xacro"/>
+<xacro:include filename="$(find five_axis_robot)/urdf/five_axis.urdf.xacro"/>
+<xacro:include filename="$(find five_axis_robot)/urdf/kinect_support.urdf.xacro"/>
+<xacro:include filename="$(find five_axis_robot)/urdf/kinect.urdf.xacro"/>
+
+<!-- <xacro:kinect2_rgb_gazebo link_name="kinect2_rgb_link" frame_name="kinect2_rgb_optical_frame" camera_name="kinect_V2" />
+<xacro:kinect2_ir_gazebo link_name="kinect2_ir_link" frame_name="kinect2_ir_optical_frame" camera_name="kinect_V2" /> -->
+
+</robot>

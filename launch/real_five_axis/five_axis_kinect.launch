@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find five_axis_robot)/urdf/five_axis_kinect.urdf.xacro'" />
+
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find xacro)/xacro '$(find five_axis_robot)/config/custom_rosconsole.conf"/>
+
+  <rosparam file="$(find five_axis_robot)/config/five_axis_control.yaml" command="load"/>
+  <rosparam file="$(find five_axis_robot)/config/five_axis_joint_limits.yaml" command="load" />
+
+    <node name="kinect2_bridge" pkg="kinect2_bridge" type="kinect2_bridge"/>
+
+  	<!-- Publish robot's state in the tf tree -->
+  	<node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_state_pub" />
+
+    <arg name="protocol_version" default="p2"
+         doc="Choses the dynamixel protocol variant to be used (p1 or p2)"/>
+
+    <node pkg="dynamixel_control_hw"
+          type="dynamixel_control_$(arg protocol_version)"
+          name="dynamixel_control" output="screen" clear_params="true"
+          required="true"/>
+
+  <node name="controller" pkg="controller_manager" type="spawner"
+            respawn="false" output="screen" clear_params="true"
+            args="five_axis_robot/joint1_position_controller
+                  five_axis_robot/joint2_position_controller
+                  five_axis_robot/joint_state_controller" /> 
+
+</launch>

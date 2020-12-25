@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<robot name="five_axis_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<material name="silver">
+		<color rgba="0.75 0.75 0.75 1"/>
+	</material>
+
+	<link name="a_axis_body_link">
+		<inertial>
+			<mass value="3"/>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<visual>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<geometry name="base_link_visual">
+				<mesh filename="package://five_axis_robot/meshes/a_axis_assembly.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<material name="silver">
+				<color rgba="1.0 0.0 0.0 1.0"/>
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<geometry name="base_link_collision">
+				<mesh filename="package://five_axis_robot/meshes/a_axis_assembly.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+		</collision>
+	</link>
+
+	<joint name="base_to_support" type="fixed">
+		<parent link="support"/>
+		<child link="a_axis_body_link"/>
+		<origin rpy="${0.5*pi} 0 0" xyz="-0.05 -0.025 0.074"/>
+	</joint>
+
+	<!-- This is just a dummy link to provide a fixed transformation target for the a_axis_horn -->
+	<link name="a_axis_servo_link">
+	</link>
+
+	<joint name="a_axis_body_to_a_axis_servo" type="fixed">
+		<parent link="a_axis_body_link"/>
+		<child link="a_axis_servo_link"/>
+		<origin xyz="0.0537 -0.032 0.08" rpy="-${0.5 * pi} ${pi} 0"/>
+		<limit lower="-${pi}" upper="${pi}" effort="10" velocity="3"/>
+		<axis xyz="0 0 -1"/>
+	</joint>
+
+	<link name="a_axis_horn_link">
+		<inertial>
+			<mass value="0.3"/>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<visual>
+			<origin rpy="${pi} 0 0" xyz="0 0.0 0.0"/>
+			<geometry name="a_axis_horn_link_visual">
+				<mesh filename="package://five_axis_robot/meshes/a_axis_horn_link.stl" scale="0.001 0.001 0.001"/>
+				<color rgba="0.75 0.75 0.75 1.0"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<geometry name="a_axis_horn_link_collision">
+				<mesh filename="package://five_axis_robot/meshes/a_axis_horn_link.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+		</collision>
+	</link>
+
+	<joint name="a_axis_servo_to_a_axis_horn" type="revolute">
+		<parent link="a_axis_servo_link"/>
+		<child link="a_axis_horn_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<limit lower="-${pi}" upper="${pi}" effort="10" velocity="3"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+	<link name="c_axis_body_link">
+		<inertial>
+			<mass value="2"/>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<visual>
+			<origin rpy="${0.5*pi} ${pi} ${pi}" xyz="0.0 -0.007277 0.0"/>
+			<geometry name="tilt_link_visual">
+				<mesh filename="package://five_axis_robot/meshes/c_axis_assembly.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<material name="silver">
+				<color rgba="1.0 0.0 0.0 1.0"/>
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<geometry name="tilt_link_collision">
+				<mesh filename="package://five_axis_robot/meshes/c_axis_assembly.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<!-- 	  <contact_coefficients kd="1.0" kp="1000.0" mu="0"/> -->
+		</collision>
+	</link>
+
+	<joint name="a_axis_horn_to_c_axis_body" type="fixed">
+		<parent link="a_axis_horn_link"/>
+		<child link="c_axis_body_link"/>
+		<origin xyz="0 0 0.007" rpy="0 0 ${0.5 * pi}"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+
+	<!-- This is just a dummy link to provide a fixed transformation target for the c_axis_horn -->
+	<link name="c_axis_servo_link">
+	</link>
+
+	<joint name="c_axis_body_to_c_axis_servo" type="fixed">
+		<parent link="c_axis_body_link"/>
+		<child link="c_axis_servo_link"/>
+		<origin xyz="0 0.01 0.060723" rpy="${0.5*pi} 0 ${pi}"/>
+		<limit lower="-${pi}" upper="${pi}" effort="10" velocity="3"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+	<link name="c_axis_horn_link">
+		<inertial>
+			<mass value="0.3"/>
+			<origin rpy="0 -${0.5 * pi} 0" xyz="0 0.060723 0"/>
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<visual>
+			<origin rpy="0 0 0" xyz="0 0.060723 -0.017"/>
+			<geometry name="tilt_bearing_core_link_visual">
+				<mesh filename="package://five_axis_robot/meshes/c_axis_horn_link.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<origin rpy="0 -${0.5 * pi} 0" xyz="0 0.060723 0"/>
+			<geometry name="tilt_bearing_core_link_collision">
+				<mesh filename="package://five_axis_robot/meshes/c_axis_horn_link.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+			<contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+		</collision>
+	</link>
+
+	<joint name="c_axis_servo_to_c_axis_horn" type="revolute">
+		<parent link="c_axis_servo_link"/>
+		<child link="c_axis_horn_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<limit lower="-${pi}" upper="${pi}" effort="10" velocity="3"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+<!-- <link name="rotary_table_link">
+	<inertial>
+	  <mass value="1"/>
+	  <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	  <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+	</inertial>
+	<visual>
+	  <origin rpy="${pi} 0 0" xyz="0 -0.060723 0.007277"/>
+	  <geometry name="tilt_bearing_core_link_visual">
+		<mesh filename="package://five_axis_robot/meshes/rotary_table_link.stl" scale="0.001 0.001 0.001"/>
+	  </geometry>
+	  <material name="silver"/>
+	</visual>
+	<collision>
+	  <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	  <geometry name="tilt_bearing_core_link_collision">
+		<mesh filename="package://five_axis_robot/meshes/rotary_table_link.stl" scale="0.001 0.001 0.001"/>
+	  </geometry>
+	  <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+	</collision>
+</link>
+
+<joint name="c_axis_horn_to_rotary_table" type="fixed">
+	<parent link="c_axis_horn_link"/>
+	<child link="rotary_table_link"/>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<axis xyz="0 1 0"/>
+</joint> -->
+
+</robot>

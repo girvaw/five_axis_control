@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot name="five_axis_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- <material name="silver">
+    <color rgba="0.75 0.75 0.75 1"/>
+</material> -->
+
+<material name="white">
+    <color rgba="1 1 1 1"/>
+</material>
+
+<link name="world"/>
+
+<link name="support">
+	<inertial>
+	  <mass value="0.3"/>
+	  <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	  <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+	</inertial>
+	<visual>
+	  <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	  <geometry name="base_link_visual">
+	    <box size="0.3 0.05 0.072" />
+	  </geometry>
+	  <material name="white">
+	  </material>
+	</visual>
+	<collision>
+	  <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	  <geometry name="base_link_collision">
+	     <box size="0.3 0.05 0.075" />
+	  </geometry>
+	  <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+	</collision>
+</link>
+
+<joint name="support_to_world" type="fixed">
+	<parent link="world"/>
+	<child link="support"/>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+</joint>
+
+</robot>

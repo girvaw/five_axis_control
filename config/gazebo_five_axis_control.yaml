@@ -1,0 +1,17 @@
+
+five_axis_robot:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+     # Position Controllers ---------------------------------------
+  joint1_position_controller:
+    type: position_controllers/JointPositionController
+    joint: a_axis_servo_to_a_axis_horn
+    # pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  joint2_position_controller:
+    type: position_controllers/JointPositionController
+    joint: c_axis_servo_to_c_axis_horn
+    # pid: {p: 100.0, i: 0.001, d: 10.0}
